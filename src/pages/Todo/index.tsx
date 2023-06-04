@@ -1,4 +1,11 @@
+import { Navigate, useOutletContext } from "react-router-dom";
+
 export default function Todo() {
+  const authState = useOutletContext();
+
+  if (!authState) {
+    return <Navigate to="/login" />;
+  }
   return (
     <div>
       <ul>
