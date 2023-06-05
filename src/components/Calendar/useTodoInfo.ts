@@ -1,8 +1,6 @@
-import { useRecoilValue } from "recoil";
-import { todoState } from "@/stores/todo";
+import { ITodoItem } from "@/types/todoItem";
 
-const useTodoInfo = (date: string) => {
-  const todos = useRecoilValue(todoState);
+const useTodoInfo = (date: string, todos: ITodoItem[]) => {
   const currentTodos = todos.filter((todo) => todo.date === date);
   const count = currentTodos.filter((todo) => !todo.isDone).length;
   const isDone = count === 0 && currentTodos.length !== 0;

@@ -12,8 +12,6 @@ export default function Calender() {
   const [selectedDate, setSelectedDate] = useRecoilState(selectedDateState);
   const splited = selectedDate.split("/");
 
-  console.log(selectedDate);
-
   const handleSelectDate = (v: string) => {
     setSelectedDate(v);
   };

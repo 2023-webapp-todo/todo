@@ -4,6 +4,8 @@ import styles from "./styles.module.scss";
 import TodoIconSvg from "../TodoIconSvg.tsx";
 import useTodoInfo from "../useTodoInfo";
 import { ReactComponent as CheckIcon } from "@/assets/check.svg";
+import { useRecoilValue } from "recoil";
+import { todoState } from "@/stores/todo";
 
 export default function RenderCalenderBoard(
   selectedDay: string,
@@ -33,7 +35,11 @@ export default function RenderCalenderBoard(
       key={v ? v.toString() : `${v}${i}`}
     >
       {v && ( //TODO
-        <CalenderItem date={v} handleSelectDate={handleSelectDate} />
+        <CalenderItem
+          date={v}
+          selectedDay={selectedDay}
+          handleSelectDate={handleSelectDate}
+        />
       )}
     </div>
   ));
@@ -43,19 +49,30 @@ export default function RenderCalenderBoard(
 
 type CalenderItemProps = {
   date: string;
+  selectedDay: string;
   handleSelectDate: (v: string) => void;
 };
 
-const CalenderItem = ({ date, handleSelectDate }: CalenderItemProps) => {
-  const { count, isDone } = useTodoInfo(date);
+const CalenderItem = ({
+  date,
+  selectedDay,
+  handleSelectDate,
+}: CalenderItemProps) => {
+  const todos = useRecoilValue(todoState);
+  const { count, isDone } = useTodoInfo(date, todos);
+  const isSelectedDate = selectedDay === date;
   return (
     <>
       <button onClick={() => handleSelectDate(date)}>
         <span className={styles.count}>{count !== 0 && count}</span>
-        <TodoIconSvg colors={["#bbbbbb"]} />
-        {isDone && <CheckIcon className={styles.check} />}
+        <TodoIconSvg colors={isSelectedDate ? ["#ec6130"] : ["#DBDDDF"]} />
+        {isDone && (
+          <CheckIcon
+            className={isSelectedDate ? styles.selectedCheck : styles.check}
+          />
+        )}
       </button>
-      <span className="date">{dayjs(date).date()}</span>
+      <span className={styles.date}>{dayjs(date).date()}</span>
     </>
   );
 };

@@ -1,7 +1,6 @@
 .wrapper {
+  flex-grow: 0.5;
   margin-top: 16px;
-  transform: translate3d(-14px, 0, 0);
-  width: calc(100% + 28px);
 }
 
 .board {
@@ -10,7 +9,7 @@
 }
 
 .head {
-  font-size: 14px;
+  font-size: 1.2rem;
   font-weight: 700;
   display: flex;
   justify-content: space-between;
@@ -25,15 +24,18 @@
     width: 26px;
     margin-left: 8px;
     cursor: pointer;
+    &:hover {
+      opacity: 0.8;
+    }
   }
 }
 
 .days {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-
+  margin: 1.5rem 0;
   & > div {
     margin: 4px auto;
-    font-size: 10px;
+    font-size: 1rem;
   }
 }
