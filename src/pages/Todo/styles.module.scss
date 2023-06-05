@@ -1,23 +1,37 @@
 @import "@/media.scss";
 
 .container {
+  display: flex;
+  flex-direction: column;
   width: 100%;
-  max-width: 1200px;
+  max-width: 1000px;
   min-height: 100vh;
   margin: 0 auto;
   padding: 0 3rem;
 }
-.friends {
-  display: flex;
-  gap: 1rem;
+
+.username {
+  margin-top: 3rem;
+  margin-left: 0.8rem;
+  font-size: 2rem;
+  font-weight: 900;
+  color: var(--main-color);
 }
 
 .content {
   display: flex;
   justify-content: center;
   gap: 1rem;
-  margin-top: 5rem;
+  width: 100%;
   @include mobile {
     flex-direction: column;
+  }
+}
+
+.calendarSection {
+  & > h1 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--main-color);
   }
 }
