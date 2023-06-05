@@ -1,4 +1,5 @@
 import { BsPlusCircle } from "react-icons/bs";
+import { MdDeleteForever } from "react-icons/md";
 import styles from "./styles.module.scss";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { selectTodoState, todoState } from "@/stores/todo";
@@ -16,6 +17,7 @@ export default function Feed() {
 
   const createTodo = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (inputTodo === "") return;
     const newTodo: ITodoItem = {
       label: inputTodo,
       isDone: false,
@@ -31,6 +33,11 @@ export default function Feed() {
       todo.id === id ? { ...todo, isDone: !todo.isDone } : todo
     );
     setTodos(updatedTodos);
+  };
+
+  const deleteTodo = (id: string) => {
+    const filteredTodos = todos.filter((todo) => todo.id !== id);
+    setTodos(filteredTodos);
   };
 
   return (
@@ -54,6 +61,7 @@ export default function Feed() {
               <TodoIconSvg colors={todo.isDone ? ["#ec6130"] : ["#DBDDDF"]} />
             </button>
             <span>{todo.label}</span>
+            <MdDeleteForever onClick={() => deleteTodo(todo.id)} />
           </li>
         ))}
       </ul>
