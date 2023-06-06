@@ -29,7 +29,7 @@ let uuid = 4;
 
 export const handlers = [
   // getTodos
-  rest.get("/api/getTodos", (req, res, ctx) => {
+  rest.get("/api/getTodos.php", (req, res, ctx) => {
     const userId = req.url.searchParams.get("user_id");
 
     const filteredTodos = todos.filter((todo) => todo.user_id === userId);
@@ -37,7 +37,7 @@ export const handlers = [
   }),
 
   // createTodos
-  rest.get("/api/createTodo", (req, res, ctx) => {
+  rest.get("/api/createTodo.php", (req, res, ctx) => {
     const userId = req.url.searchParams.get("user_id") || "";
     const checked = req.url.searchParams.get("checked") === "true";
     const content = req.url.searchParams.get("content") || "";
@@ -53,20 +53,20 @@ export const handlers = [
       user_id: userId,
     };
     todos.push(newTodo);
-    return res(ctx.status(200), ctx.json(newTodo));
+    return res(ctx.status(200), ctx.json([newTodo]));
   }),
 
   // updateTodo
-  rest.get("/api/updateTodo", (req, res, ctx) => {
+  rest.get("/api/updateTodo.php", (req, res, ctx) => {
     const todoId = req.url.searchParams.get("todo_id");
     const originTodo = todos.filter((todo) => todo.todo_id === todoId)[0];
     const newTodo: ITodoItem = { ...originTodo, checked: !originTodo.checked };
     todos = todos.map((todo) => (todo.todo_id === todoId ? newTodo : todo));
-    return res(ctx.status(200), ctx.json(newTodo));
+    return res(ctx.status(200), ctx.json([newTodo]));
   }),
 
   // deleteTodo
-  rest.get("/api/deleteTodo", (req, res, ctx) => {
+  rest.get("/api/deleteTodo.php", (req, res, ctx) => {
     const todoId = req.url.searchParams.get("todo_id");
     todos = todos.filter((todo) => todo.todo_id !== todoId);
     return res(ctx.status(200), ctx.json("삭제되었습니다."));

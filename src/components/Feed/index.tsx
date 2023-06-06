@@ -26,7 +26,7 @@ export default function Feed({ todos, setTodos }: FeedProps) {
     const newTodo = await createTodoAPI("1", false, inputTodo, selectedDate);
 
     if (newTodo) {
-      setTodos((prev) => [...prev, newTodo]);
+      setTodos((prev) => [...prev, ...newTodo]);
     }
     setInputTodo("");
   };
@@ -35,7 +35,7 @@ export default function Feed({ todos, setTodos }: FeedProps) {
     const updatedTodo = await updateTodoAPI(todo_id);
     if (updatedTodo) {
       const updatedTodos = todos.map((todo) =>
-        todo.todo_id === todo_id ? updatedTodo : todo
+        todo.todo_id === todo_id ? updatedTodo[0] : todo
       );
       setTodos(updatedTodos);
     }
