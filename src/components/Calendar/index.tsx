@@ -5,10 +5,15 @@ import styles from "./styles.module.scss";
 import { useRecoilState } from "recoil";
 import selectedDateState from "@/stores/selectedDate";
 import RenderCalenderBoard from "./RenderCalendarBoard";
+import { ITodoItem } from "@/types/todoItem";
 
 const days = ["일", "월", "화", "수", "목", "금", "토"];
 
-export default function Calender() {
+type CalendarProps = {
+  todos: ITodoItem[];
+};
+
+export default function Calender({ todos }: CalendarProps) {
   const [selectedDate, setSelectedDate] = useRecoilState(selectedDateState);
   const splited = selectedDate.split("/");
 
@@ -32,7 +37,7 @@ export default function Calender() {
     setSelectedDate(newDate);
   };
 
-  const board = RenderCalenderBoard(selectedDate, handleSelectDate);
+  const board = RenderCalenderBoard(todos, selectedDate, handleSelectDate);
 
   return (
     <div className={styles.wrapper}>

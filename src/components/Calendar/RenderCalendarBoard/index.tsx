@@ -4,10 +4,10 @@ import styles from "./styles.module.scss";
 import TodoIconSvg from "../TodoIconSvg.tsx";
 import useTodoInfo from "../useTodoInfo";
 import { ReactComponent as CheckIcon } from "@/assets/check.svg";
-import { useRecoilValue } from "recoil";
-import { todoState } from "@/stores/todo";
+import { ITodoItem } from "@/types/todoItem";
 
 export default function RenderCalenderBoard(
+  todos: ITodoItem[],
   selectedDay: string,
   handleSelectDate: (v: string) => void
 ) {
@@ -38,6 +38,7 @@ export default function RenderCalenderBoard(
         <CalenderItem
           date={v}
           selectedDay={selectedDay}
+          todos={todos}
           handleSelectDate={handleSelectDate}
         />
       )}
@@ -50,15 +51,16 @@ export default function RenderCalenderBoard(
 type CalenderItemProps = {
   date: string;
   selectedDay: string;
+  todos: ITodoItem[];
   handleSelectDate: (v: string) => void;
 };
 
 const CalenderItem = ({
   date,
   selectedDay,
+  todos,
   handleSelectDate,
 }: CalenderItemProps) => {
-  const todos = useRecoilValue(todoState);
   const { count, isDone } = useTodoInfo(date, todos);
   const isSelectedDate = selectedDay === date;
   return (

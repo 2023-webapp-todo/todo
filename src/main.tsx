@@ -4,6 +4,11 @@ import App from "./App";
 import { BrowserRouter } from "react-router-dom";
 import "./reset.scss";
 import { RecoilRoot } from "recoil";
+import { worker } from "./mocks/worker";
+
+if (import.meta.env.DEV) {
+  worker.start();
+}
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
