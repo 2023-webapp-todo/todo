@@ -21,7 +21,7 @@ export default function SignUp() {
   const [nickname, nicknameHandler] = useInput("");
   const emailErrorState = useCheckInput(email, /.*@.*/g);
   const passwordErrorState = useCheckInput(password, /^.{8,}$/g);
-  const nicknameErrorState = useCheckInput(nickname, /\b\w{3,}\b/);
+  const nicknameErrorState = useCheckInput(nickname, /^.{3,}$/g);
 
   const handleSubmit = async () => {
     const form: Form = {
@@ -42,12 +42,12 @@ export default function SignUp() {
   };
 
   useEffect(() => {
-    if (!emailErrorState && !passwordErrorState) {
+    if (!emailErrorState && !passwordErrorState && !nicknameErrorState) {
       setFormDisabled(false);
     } else {
       setFormDisabled(true);
     }
-  }, [emailErrorState, passwordErrorState]);
+  }, [emailErrorState, passwordErrorState, nicknameErrorState]);
 
   if (authState) {
     return <Navigate to="/todo" />;
