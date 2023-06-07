@@ -6,13 +6,23 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 3rem;
+    width: 6rem;
     height: 3rem;
     border: 1px solid var(--darkgray-color);
-    border-radius: 50%;
+    border-radius: 1.5rem;
     font-size: 0.8rem;
+    font-weight: 700;
     cursor: pointer;
     transition: 0.1s ease-in;
+
+    &>p {
+      display: block;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      word-break: break-all;
+    }
+    
     &:hover {
       scale: 1.2;
     }

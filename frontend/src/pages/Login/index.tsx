@@ -31,7 +31,7 @@ export default function Login() {
     if (response.message) {
       alert(response.message);
     } else if (response) {
-      localStorage.setItem("user", response);
+      localStorage.setItem("user", JSON.stringify(response));
       setSelectedProfile(response.nickname);
       setUserId(response.user_id);
       navigate("/todo");

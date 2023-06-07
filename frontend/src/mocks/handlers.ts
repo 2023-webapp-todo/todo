@@ -24,19 +24,40 @@ let todos: ITodoItem[] = [
     checked: false,
     user_id: "1",
   },
+  {
+    todo_id: "4",
+    create_date: "06/07/23",
+    content: "밥먹었어요?",
+    checked: false,
+    user_id: "2",
+  },
 ];
 
-const user: IUser[] = [
+type CheckUser = IUser & {login_id: string; password?: string};
+
+const user: CheckUser[] = [
   {
     user_id: "1",
     login_id: "test@123",
     password: "test1234",
     nickname: "testUser",
   },
+  {
+    user_id: "2",
+    login_id: "sangmin@1234",
+    password: "qwer1234",
+    nickname: "이상민",
+  },
+  {
+    user_id: "3",
+    login_id: "jongyup@1234",
+    password: "qwer1234",
+    nickname: "임종엽",
+  },
 ];
 
-let uuid = 4;
-let user_uuid = 2;
+let uuid = 5;
+let user_uuid = 4;
 
 export const handlers = [
   // signupUser
@@ -48,7 +69,7 @@ export const handlers = [
     const userId = user_uuid.toString();
     user_uuid++;
 
-    const newUser: IUser = {
+    const newUser: CheckUser = {
       user_id: userId,
       login_id: loginId,
       password,
@@ -77,9 +98,18 @@ export const handlers = [
           ctx.json({ message: "비밀번호가 일치하지 않습니다." })
         );
       } else {
+        delete findUser.password;
         return res(ctx.status(200), ctx.json(findUser));
       }
     }
+  }),
+
+  // getUsers
+  rest.get("/api/getUsers.php", (req, res, ctx) => {
+    const userId = req.url.searchParams.get("user_id");
+
+    const users = user.map(u => {return {user_id: u.user_id, nickname: u.nickname}}).filter(u => u.user_id !== userId);
+    return res(ctx.status(200), ctx.json(users));
   }),
 
   // getTodos
