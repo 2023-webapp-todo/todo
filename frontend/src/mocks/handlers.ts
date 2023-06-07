@@ -1,4 +1,5 @@
 import { ITodoItem } from "@/types/todoItem";
+import { IUser } from '@/types/user';
 import { rest } from "msw";
 
 let todos: ITodoItem[] = [
@@ -25,9 +26,63 @@ let todos: ITodoItem[] = [
   },
 ];
 
+const user: IUser[] = [
+  {
+    user_id: "1",
+    login_id: "test",
+    password: "test1234",
+    nickname: "testUser"
+  }
+]
+
 let uuid = 4;
+let user_uuid = 2;
 
 export const handlers = [
+
+  // signupUser
+  rest.get("/api/signupUser.php", (req, res, ctx) => {
+    const loginId = req.url.searchParams.get("login_id") || "";
+    const password = req.url.searchParams.get("password") || "";
+    const nickname = req.url.searchParams.get("nickname") || "";
+
+    const userId = user_uuid.toString();
+    user_uuid++;
+
+    const newUser: IUser = {
+      user_id: userId,
+      login_id: loginId,
+      password,
+      nickname
+    }
+    user.push(newUser);
+    return res(ctx.status(200), ctx.json(newUser));
+  }),
+  // getTodos
+  rest.get("/api/getTodos.php", (req, res, ctx) => {
+    const userId = req.url.searchParams.get("user_id");
+
+    const filteredTodos = todos.filter((todo) => todo.user_id === userId);
+    return res(ctx.status(200), ctx.json(filteredTodos));
+  }),
+
+  // loginUser
+  rest.get("/api/signupUser.php", (req, res, ctx) => {
+    const loginId = req.url.searchParams.get("login_id") || "";
+    const password = req.url.searchParams.get("password") || "";
+
+    const findUser = user.find(u => u.login_id === loginId);
+    if(!findUser) {
+      return res(ctx.status(200), ctx.json({message: "존재하지 않는 아이디입니다."}));
+    } else {
+      const isMatch = findUser.password === password;
+      if(!isMatch) {
+        return res(ctx.status(200), ctx.json({message: "비밀번호가 일치하지 않습니다."}));
+      } else {
+        return res(ctx.status(200), ctx.json(findUser));
+      }
+    }
+  }),
   // getTodos
   rest.get("/api/getTodos.php", (req, res, ctx) => {
     const userId = req.url.searchParams.get("user_id");
