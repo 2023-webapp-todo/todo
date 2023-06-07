@@ -53,7 +53,7 @@ export const handlers = [
       user_id: userId,
     };
     todos.push(newTodo);
-    return res(ctx.status(200), ctx.json([newTodo]));
+    return res(ctx.status(200), ctx.json(newTodo));
   }),
 
   // updateTodo
@@ -62,7 +62,7 @@ export const handlers = [
     const originTodo = todos.filter((todo) => todo.todo_id === todoId)[0];
     const newTodo: ITodoItem = { ...originTodo, checked: !originTodo.checked };
     todos = todos.map((todo) => (todo.todo_id === todoId ? newTodo : todo));
-    return res(ctx.status(200), ctx.json([newTodo]));
+    return res(ctx.status(200), ctx.json(newTodo));
   }),
 
   // deleteTodo

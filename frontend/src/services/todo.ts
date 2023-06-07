@@ -19,7 +19,7 @@ export const createTodoAPI = async (
   createDate: string
 ) => {
   try {
-    const response = await axios.get<ITodoItem[]>(
+    const response = await axios.get<ITodoItem>(
       `/api/createTodo.php?user_id=${user_id}&checked=${checked}&content=${content}&create_date=${createDate}`
     );
     return response.data;
@@ -30,7 +30,7 @@ export const createTodoAPI = async (
 
 export const updateTodoAPI = async (todo_id: string) => {
   try {
-    const response = await axios.get<ITodoItem[]>(
+    const response = await axios.get<ITodoItem>(
       `/api/updateTodo.php?todo_id=${todo_id}`
     );
     return response.data;
