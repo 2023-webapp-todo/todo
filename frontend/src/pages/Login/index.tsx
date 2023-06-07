@@ -1,8 +1,7 @@
 import useCheckInput from "@/hooks/useCheckInput";
 import useInput from "@/hooks/useInput";
 import onKeydown from "@/utils/onKeyDown";
-import { SignInAPI } from "@/services/user";
-import { Form } from "@/types/form";
+import { LoginAPI } from "@/services/user";
 import { useEffect, useState } from "react";
 import {
   Link,
@@ -11,6 +10,8 @@ import {
   useOutletContext,
 } from "react-router-dom";
 import styles from "./styles.module.scss";
+import { useSetRecoilState } from "recoil";
+import selectedProfileState from "@/stores/selectedProfile";
 
 export default function Login() {
   const authState = useOutletContext();
@@ -21,13 +22,15 @@ export default function Login() {
   const emailErrorState = useCheckInput(email, /.*@.*/g);
   const passwordErrorState = useCheckInput(password, /^.{8,}$/g);
 
+  const setSelectedProfileState = useSetRecoilState(selectedProfileState);
+
   const handleSubmit = async () => {
-    const form: Form = {
-      email,
-      password,
-    };
-    const response = await SignInAPI(form);
-    if (response) {
+    const response = await LoginAPI(email, password);
+    if (response.message) {
+      alert(response.message);
+    } else if (response) {
+      localStorage.setItem("user", response);
+      setSelectedProfileState(response.nickname);
       navigate("/todo");
     }
   };

@@ -2,7 +2,6 @@ import useCheckInput from "@/hooks/useCheckInput";
 import useInput from "@/hooks/useInput";
 import onKeydown from "@/utils/onKeyDown";
 import { SignUpAPI } from "@/services/user";
-import { Form } from "@/types/form";
 import { useEffect, useState } from "react";
 import {
   Link,
@@ -24,14 +23,10 @@ export default function SignUp() {
   const nicknameErrorState = useCheckInput(nickname, /^.{3,}$/g);
 
   const handleSubmit = async () => {
-    const form: Form = {
-      email,
-      password,
-    };
-    const response = await SignUpAPI(form);
+    const response = await SignUpAPI(email, password, nickname);
     if (response) {
       alert("회원가입에 성공하였습니다.");
-      navigate("/signin");
+      navigate("/login");
     }
   };
 

@@ -16,8 +16,8 @@ function BeforeLogin() {
 function AfterLogin() {
   const navigate = useNavigate();
   const onLogout = () => {
-    localStorage.removeItem("token");
-    navigate("/signin");
+    localStorage.removeItem("user");
+    navigate("/login");
   };
   return (
     <div className={styles.buttonWrapper}>

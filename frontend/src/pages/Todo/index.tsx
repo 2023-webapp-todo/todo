@@ -1,4 +1,4 @@
-// import { Navigate, useOutletContext } from "react-router-dom";
+import { Navigate, useOutletContext } from "react-router-dom";
 import Calender from "@/components/Calendar";
 import styles from "./styles.module.scss";
 import Feed from "@/components/Feed";
@@ -10,7 +10,7 @@ import { ITodoItem } from "@/types/todoItem";
 import { getTodosAPI } from "@/services/todo";
 
 export default function Todo() {
-  // const authState = useOutletContext();
+  const authState = useOutletContext();
 
   const [todos, setTodos] = useState<ITodoItem[]>([]);
 
@@ -27,9 +27,9 @@ export default function Todo() {
     getUserTodos();
   }, []);
 
-  // if (!authState) {
-  //   return <Navigate to="/login" />;
-  // }
+  if (!authState) {
+    return <Navigate to="/login" />;
+  }
   return (
     <div className={styles.container}>
       <Friends />

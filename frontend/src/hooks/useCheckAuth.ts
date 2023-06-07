@@ -5,7 +5,7 @@ const useCheckAuth = (): boolean => {
   const location = useLocation();
   const [authState, setAuthState] = useState(false);
   useEffect(() => {
-    if (localStorage.getItem("token")) {
+    if (localStorage.getItem("user")) {
       setAuthState(true);
     } else {
       setAuthState(false);

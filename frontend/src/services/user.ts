@@ -1,38 +1,28 @@
-import { Form } from "@/types/form";
 import axios, { AxiosError } from "axios";
 
-export const SignUpAPI = async (form: Form) => {
+export const SignUpAPI = async (
+  login_id: string,
+  password: string,
+  nickname: string
+) => {
   try {
-    const response = await axios.post("/auth/signup", form, {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    return response;
+    const response = await axios.get(
+      `/api/signupUser.php?login_id=${login_id}&password=${password}&nickname=${nickname}`
+    );
+    return response.data;
   } catch (e) {
     alert((e as AxiosError<ErrorResponse>).response?.data.message);
   }
 };
 
-export const SignInAPI = async (form: Form) => {
+export const LoginAPI = async (login_id: string, password: string) => {
   try {
-    const response = await axios.post("/auth/signin", form, {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    localStorage.setItem("token", response.data.access_token);
-    axios.defaults.headers.common[
-      "Authorization"
-    ] = `Bearer ${response.data.access_token}`;
-    return response;
+    const response = await axios.get(
+      `/api/loginUser.php?login_id=${login_id}&password=${password}`
+    );
+    return response.data;
   } catch (e) {
-    const err = e as AxiosError<ErrorResponse>;
-    if (err.response?.status === 401) {
-      alert("비밀번호가 일치하지 않습니다.");
-    } else {
-      alert(err.response?.data.message);
-    }
+    alert((e as AxiosError<ErrorResponse>).response?.data.message);
   }
 };
 
