@@ -1,5 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import styles from "./styles.module.scss";
+import { useSetRecoilState } from 'recoil';
+import userIdState from '@/stores/userId';
 
 type NavbarProps = {
   authState: boolean;
@@ -14,9 +16,12 @@ function BeforeLogin() {
   );
 }
 function AfterLogin() {
+  const setUserId = useSetRecoilState(userIdState);
+  
   const navigate = useNavigate();
   const onLogout = () => {
     localStorage.removeItem("user");
+    setUserId(null)
     navigate("/login");
   };
   return (

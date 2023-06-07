@@ -8,24 +8,25 @@ import Friends from "@/components/Friends";
 import { useEffect, useState } from "react";
 import { ITodoItem } from "@/types/todoItem";
 import { getTodosAPI } from "@/services/todo";
+import userIdState from '@/stores/userId';
 
 export default function Todo() {
   const authState = useOutletContext();
 
   const [todos, setTodos] = useState<ITodoItem[]>([]);
-
-  const getUserTodos = async () => {
-    const userTodos = await getTodosAPI("1");
-    if (userTodos) {
-      setTodos(userTodos);
-    }
-  };
+  const userId = useRecoilValue(userIdState) || "";
 
   const selectedProfile = useRecoilValue(selectedProfileState);
 
   useEffect(() => {
+    const getUserTodos = async () => {
+      const userTodos = await getTodosAPI(userId);
+      if (userTodos) {
+        setTodos(userTodos);
+      }
+    };
     getUserTodos();
-  }, []);
+  }, [userId]);
 
   if (!authState) {
     return <Navigate to="/login" />;
@@ -36,7 +37,7 @@ export default function Todo() {
       <h1 className={styles.username}>{selectedProfile}의 TODO</h1>
       <div className={styles.content}>
         <Calender todos={todos} />
-        <Feed todos={todos} setTodos={setTodos} />
+        <Feed userId={userId} todos={todos} setTodos={setTodos} />
       </div>
     </div>
   );

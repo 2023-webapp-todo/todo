@@ -12,6 +12,7 @@ import {
 import styles from "./styles.module.scss";
 import { useSetRecoilState } from "recoil";
 import selectedProfileState from "@/stores/selectedProfile";
+import userIdState from '@/stores/userId';
 
 export default function Login() {
   const authState = useOutletContext();
@@ -22,7 +23,8 @@ export default function Login() {
   const emailErrorState = useCheckInput(email, /.*@.*/g);
   const passwordErrorState = useCheckInput(password, /^.{8,}$/g);
 
-  const setSelectedProfileState = useSetRecoilState(selectedProfileState);
+  const setSelectedProfile = useSetRecoilState(selectedProfileState);
+  const setUserId = useSetRecoilState(userIdState);
 
   const handleSubmit = async () => {
     const response = await LoginAPI(email, password);
@@ -30,7 +32,8 @@ export default function Login() {
       alert(response.message);
     } else if (response) {
       localStorage.setItem("user", response);
-      setSelectedProfileState(response.nickname);
+      setSelectedProfile(response.nickname);
+      setUserId(response.user_id);
       navigate("/todo");
     }
   };

@@ -10,11 +10,12 @@ import { useEffect, useState } from "react";
 import { createTodoAPI, deleteTodoAPI, updateTodoAPI } from "@/services/todo";
 
 type FeedProps = {
+  userId: string;
   todos: ITodoItem[];
   setTodos: React.Dispatch<React.SetStateAction<ITodoItem[]>>;
 };
 
-export default function Feed({ todos, setTodos }: FeedProps) {
+export default function Feed({ userId, todos, setTodos }: FeedProps) {
   const [inputTodo, handleInputTodo, setInputTodo] = useInput("");
   const selectedDate = useRecoilValue(selectedDateState);
 
@@ -23,7 +24,7 @@ export default function Feed({ todos, setTodos }: FeedProps) {
   const createTodo = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (inputTodo === "") return;
-    const newTodo = await createTodoAPI("1", false, inputTodo, selectedDate);
+    const newTodo = await createTodoAPI(userId, false, inputTodo, selectedDate);
     
     if (newTodo) {
       setTodos((prev) => [...prev, newTodo]);
