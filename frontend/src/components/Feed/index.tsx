@@ -8,7 +8,7 @@ import { ITodoItem } from "@/types/todoItem";
 import selectedDateState from "@/stores/selectedDate";
 import { useEffect, useState } from "react";
 import { createTodoAPI, deleteTodoAPI, updateTodoAPI } from "@/services/todo";
-import selectedProfileState from '@/stores/selectedProfile';
+import selectedProfileState from "@/stores/selectedProfile";
 
 type FeedProps = {
   userId: string;
@@ -27,7 +27,7 @@ export default function Feed({ userId, todos, setTodos }: FeedProps) {
     e.preventDefault();
     if (inputTodo === "") return;
     const newTodo = await createTodoAPI(userId, false, inputTodo, selectedDate);
-    
+
     if (newTodo) {
       setTodos((prev) => [...prev, newTodo]);
     }
@@ -57,26 +57,38 @@ export default function Feed({ userId, todos, setTodos }: FeedProps) {
   return (
     <div className={styles.container}>
       <h1>FEED</h1>
-      {selectedProfile === JSON.parse(localStorage.getItem("user") || "").nickname && (<form className={styles.inputWrapper} onSubmit={createTodo}>
-        <input
-          type="text"
-          placeholder="할 일을 입력하세요."
-          value={inputTodo}
-          onChange={handleInputTodo}
-        />
-        <button type="submit">
-          <BsPlusCircle />
-        </button>
-      </form>)}
-      
+      {selectedProfile ===
+        JSON.parse(localStorage.getItem("user") || "").nickname && (
+        <form className={styles.inputWrapper} onSubmit={createTodo}>
+          <input
+            type="text"
+            placeholder="할 일을 입력하세요."
+            value={inputTodo}
+            onChange={handleInputTodo}
+          />
+          <button type="submit">
+            <BsPlusCircle />
+          </button>
+        </form>
+      )}
+
       <ul className={styles.todoWrapper}>
         {selectedTodos.map((todo) => (
           <li key={todo.todo_id}>
-            <button onClick={() => updateTodo(todo.todo_id)} disabled={selectedProfile !== JSON.parse(localStorage.getItem("user") || "").nickname}>
+            <button
+              onClick={() => updateTodo(todo.todo_id)}
+              disabled={
+                selectedProfile !==
+                JSON.parse(localStorage.getItem("user") || "").nickname
+              }
+            >
               <TodoIconSvg colors={todo.checked ? ["#ec6130"] : ["#DBDDDF"]} />
             </button>
             <span>{todo.content}</span>
-            {selectedProfile === JSON.parse(localStorage.getItem("user") || "").nickname && <MdDeleteForever onClick={() => deleteTodo(todo.todo_id)} />}
+            {selectedProfile ===
+              JSON.parse(localStorage.getItem("user") || "").nickname && (
+              <MdDeleteForever onClick={() => deleteTodo(todo.todo_id)} />
+            )}
           </li>
         ))}
       </ul>

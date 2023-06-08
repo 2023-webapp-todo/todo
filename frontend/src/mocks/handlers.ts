@@ -33,7 +33,7 @@ let todos: ITodoItem[] = [
   },
 ];
 
-type CheckUser = IUser & {login_id: string; password?: string};
+type CheckUser = IUser & { login_id: string; password?: string };
 
 const user: CheckUser[] = [
   {
@@ -108,7 +108,11 @@ export const handlers = [
   rest.get("/api/getUsers.php", (req, res, ctx) => {
     const userId = req.url.searchParams.get("user_id");
 
-    const users = user.map(u => {return {user_id: u.user_id, nickname: u.nickname}}).filter(u => u.user_id !== userId);
+    const users = user
+      .map((u) => {
+        return { user_id: u.user_id, nickname: u.nickname };
+      })
+      .filter((u) => u.user_id !== userId);
     return res(ctx.status(200), ctx.json(users));
   }),
 

@@ -2,7 +2,7 @@ import dayjs from "dayjs";
 import { useEffect, useState } from "react";
 import styles from "./styles.module.scss";
 import TodoIconSvg from "../TodoIconSvg.tsx";
-import useTodoInfo from "../useTodoInfo";
+import useTodoInfo from "@/utils/useTodoInfo";
 import { ReactComponent as CheckIcon } from "@/assets/check.svg";
 import { ITodoItem } from "@/types/todoItem";
 

@@ -15,14 +15,14 @@
     cursor: pointer;
     transition: 0.1s ease-in;
 
-    &>p {
+    & > p {
       display: block;
       overflow: hidden;
       white-space: nowrap;
       text-overflow: ellipsis;
       word-break: break-all;
     }
-    
+
     &:hover {
       scale: 1.2;
     }

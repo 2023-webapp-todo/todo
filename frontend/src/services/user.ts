@@ -1,4 +1,4 @@
-import { IUser } from '@/types/user';
+import { IUser } from "@/types/user";
 import axios, { AxiosError } from "axios";
 
 export const SignUpAPI = async (
@@ -27,14 +27,16 @@ export const LoginAPI = async (login_id: string, password: string) => {
   }
 };
 
-export const getUsersAPI = async(user_id: string) => {
+export const getUsersAPI = async (user_id: string) => {
   try {
-    const response = await axios.get<IUser[]>(`/api/getUsers.php?user_id=${user_id}`);
+    const response = await axios.get<IUser[]>(
+      `/api/getUsers.php?user_id=${user_id}`
+    );
     return response.data;
-  }catch (e) {
+  } catch (e) {
     alert((e as AxiosError<ErrorResponse>).response?.data.message);
   }
-}
+};
 
 type ErrorResponse = {
   message: string;

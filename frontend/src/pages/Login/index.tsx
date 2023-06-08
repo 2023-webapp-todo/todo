@@ -12,7 +12,7 @@ import {
 import styles from "./styles.module.scss";
 import { useSetRecoilState } from "recoil";
 import selectedProfileState from "@/stores/selectedProfile";
-import userIdState from '@/stores/userId';
+import userIdState from "@/stores/userId";
 
 export default function Login() {
   const authState = useOutletContext();

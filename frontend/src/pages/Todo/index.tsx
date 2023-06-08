@@ -8,20 +8,19 @@ import Friends from "@/components/Friends";
 import { useEffect, useState } from "react";
 import { ITodoItem } from "@/types/todoItem";
 import { getTodosAPI } from "@/services/todo";
-import userIdState from '@/stores/userId';
-import { IUser } from '@/types/user';
-import { getUsersAPI } from '@/services/user';
+import userIdState from "@/stores/userId";
+import { IUser } from "@/types/user";
+import { getUsersAPI } from "@/services/user";
 
 export default function Todo() {
-
-
   const authState = useOutletContext();
 
   const [todos, setTodos] = useState<ITodoItem[]>([]);
   const [users, setUsers] = useState<IUser[]>([]);
 
   const userId = useRecoilValue(userIdState) || "";
-  const [selectedProfile, setSelectedProfile] = useRecoilState(selectedProfileState);
+  const [selectedProfile, setSelectedProfile] =
+    useRecoilState(selectedProfileState);
 
   const getUserTodos = async (userId: string) => {
     const userTodos = await getTodosAPI(userId);
@@ -30,30 +29,33 @@ export default function Todo() {
     }
   };
   const getUsers = async () => {
-    const users = await getUsersAPI(JSON.parse(localStorage.getItem("user") || "").user_id + "");
-    if(users) {
+    const users = await getUsersAPI(
+      JSON.parse(localStorage.getItem("user") || "").user_id + ""
+    );
+    if (users) {
       setUsers(users);
     }
-  }
+  };
 
   useEffect(() => {
     getUserTodos(userId);
-    
   }, [userId]);
 
   useEffect(() => {
-    if(!localStorage.getItem("user")) return;
-    setSelectedProfile(JSON.parse(localStorage.getItem("user") || "").nickname + "")
+    if (!localStorage.getItem("user")) return;
+    setSelectedProfile(
+      JSON.parse(localStorage.getItem("user") || "").nickname + ""
+    );
 
     getUsers();
-  }, [setSelectedProfile])
+  }, [setSelectedProfile]);
 
   if (!authState) {
     return <Navigate to="/login" />;
   }
   return (
     <div className={styles.container}>
-      <Friends users={users}/>
+      <Friends users={users} />
       <h1 className={styles.username}>{selectedProfile}의 TODO</h1>
       <div className={styles.content}>
         <Calender todos={todos} />
