@@ -28,14 +28,6 @@ export default function Todo() {
       setTodos(userTodos);
     }
   };
-  const getUsers = async () => {
-    const users = await getUsersAPI(
-      JSON.parse(localStorage.getItem("user") || "").user_id + ""
-    );
-    if (users) {
-      setUsers(users);
-    }
-  };
 
   useEffect(() => {
     getUserTodos(userId);
@@ -46,9 +38,15 @@ export default function Todo() {
     setSelectedProfile(
       JSON.parse(localStorage.getItem("user") || "").nickname + ""
     );
+    const getUsers = async () => {
+      const users = await getUsersAPI(userId);
+      if (users) {
+        setUsers(users);
+      }
+    };
 
     getUsers();
-  }, [setSelectedProfile]);
+  }, [setSelectedProfile, userId]);
 
   if (!authState) {
     return <Navigate to="/login" />;
