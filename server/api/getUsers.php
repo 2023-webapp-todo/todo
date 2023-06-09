@@ -15,7 +15,7 @@ if ($conn->connect_error) {
 }
 
 // 전달받은 login_id와 password 파라미터 가져오기
-$login_id = $_GET['login_id'];
+$user_id = $_GET['user_id'];
 
 // login_id가 db에 있는지 확인
 $query = "SELECT user_id, nickname FROM user WHERE user_id != '$user_id'";
